@@ -4,33 +4,32 @@ import { TOGGLE_FAVORITE, SET_FILTERS } from '../actions/meals';
 const initialState = {
   meals: MEALS,
   filteredMeals: MEALS,
-  favoriteMeals: [],
+  favoriteMeals: []
 };
 
 const mealsReducer = (state = initialState, action) => {
   switch (action.type) {
     case TOGGLE_FAVORITE:
       const existingIndex = state.favoriteMeals.findIndex(
-        (meal) => meal.id === action.mealId
+        meal => meal.id === action.mealId
       );
       if (existingIndex >= 0) {
         const updatedFavMeals = [...state.favoriteMeals];
         updatedFavMeals.splice(existingIndex, 1);
         return { ...state, favoriteMeals: updatedFavMeals };
       } else {
-        const meal = state.meals.find((meal) => meal.id === action.mealId);
+        const meal = state.meals.find(meal => meal.id === action.mealId);
         return { ...state, favoriteMeals: state.favoriteMeals.concat(meal) };
       }
     case SET_FILTERS:
-      const appliedFilters = actions.filters;
-      const updatedFilteredMeals = state.meals.filter((meal) => {
+      const appliedFilters = action.filters;
+      const updatedFilteredMeals = state.meals.filter(meal => {
         if (appliedFilters.glutenFree && !meal.isGlutenFree) {
           return false;
         }
         if (appliedFilters.lactoseFree && !meal.isLactoseFree) {
           return false;
         }
-        s;
         if (appliedFilters.vegetarian && !meal.isVegetarian) {
           return false;
         }
@@ -43,7 +42,6 @@ const mealsReducer = (state = initialState, action) => {
     default:
       return state;
   }
-  return state;
 };
 
 export default mealsReducer;
